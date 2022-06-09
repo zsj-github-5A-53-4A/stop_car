@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理</title>
+    <!-- 引入bootstrap -->
+    <link rel="stylesheet" href="../public/bootstrap.min.css">
+    <!-- 引入jquery -->
+    <script src="../public/jquery-3.6.0.js"></script>
+    <!-- 引入art-template -->
+
+
+    <link rel="stylesheet" href="../css/user.css">
+    <script type="text/javascript" src="../public/art-template.js"></script>
+    <script id="tel-owner" type="text/html">
+
+        {{each $data}}
+            <tr>
+                <td><input type="checkbox" class="ownerbtn"></td>
+                <td>{{$value.id}}</td>
+                <td>{{$value.name}}</td>
+                <td>{{$value.home_number}}</td>
+                <td>{{$value.phone_number}}</td>
+                <td>{{$value.park_lot}}</td>
+                <td>
+                    {{if $value.park_state == '0'}}
+                    <span>未停满</span>
+                    {{else if$value.park_state == '1'}}
+                    <span>已停满</span>
+                    {{/if}}
+                </td>
+                <td>
+                    {{if $value.carlist}}
+                        {{each $value.carlist}}
+                            {{if $index}}
+                            {{else}}
+                                <span>{{$value.license}}</span>
+                            {{/if}}
+                        {{/each}}
+                    {{/if}}
+                </td>
+                <td><img src={{if $value.carlist}}
+                        {{each $value.carlist}}
+                            {{if $index}}
+                            {{else}}
+                                {{$value.car_img}}
+                            {{/if}}
+                        {{/each}}
+                        ''
+                        {{else}}
+                    {{/if}} alt="" style="display: block;width: 60px;"></td>
+                <td>{{$value.create_time | fliter}}</td>
+                <td>{{$value.update_time | fliter}}</td>
+                <td>
+                    <div class="btn btn-set setup">编辑</div>
+                    <button class="btn btn-danger del">删除</button>
+                    <button class="btn btn-set more">更多操作</button>
+                </td>
+            </tr>
+        {{/each}}
+    </script>
+    <script type="text/javascript" src="../js/user.js"></script>
+</head>
+
+<body>
+    <button class="btn btn-primary add">新增</button>
+    <table class="table primary">
+        <thead class="table-primary">
+            <tr class="table-primary">
+                <th><input type="checkbox" class="allbtn"><span>全选</span></th>
+                <th>业主编码</th>
+                <th>业主姓名</th>
+                <th>业主房号</th>
+                <th>联系电话</th>
+                <th>车位号</th>
+                <th>车位状态</th>
+                <th>车牌号</th>
+                <th>车辆图片<img src="" alt=""></th>
+                <th>创建时间</th>
+                <th>最近更新</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody class="table-info"> </tbody>
+    </table>
+    <div class="page d-flex align-items-center justify-content-center">
+        <div class="up btn btn-primary"> < </div>
+                <div class="btn btn-dark"><span class="now">1</span>/ <span class="all">2</span></div>
+                <div class="next  btn btn-primary">></div>
+        </div>
+        <div class=" back delect">
+            <div class="del_alert">
+                <div class="del_title">
+                    系统提示
+                </div>
+                <p>确定删除用户？</p>
+                <div class="d-flex justify-content-evenly">
+                    <button class="btn btn-primary yes">确定</button>
+                    <button class="btn btn-danger no">取消</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="back add">
+            <div class="newAdd">
+                <span class="off">X</span>
+                <div class="head">添加用户 <span class="alert"> * 为必填项</span></div>
+                <div class="userInfo">
+                    <div><su>*</su><span>姓名：</span><input type="text" name="name" placeholder="请输入昵称！"></div>
+                    <div><su>*</su><span>联系电话：</span><input type="text" name="phone_number" placeholder="请输入电话号码！"></div>
+                    <div><su>*</su><span>门牌号：</span><input type="text" name="home_number" placeholder="请输入房间号"></div>
+                    <div><su>*</su><span>车位号：</span><input type="text" name="park_lot" placeholder="请输入车位号"></div>
+                    <div class="d-flex justify-content-start">
+                        <div><su>*</su><span>车位状态：</span></div>
+                        <div class="park_state1">已停满</div>
+                        <div class="park_state0">未停满</div>
+                    </div>
+                    <div class="carNum">
+                        <span> 车牌号：</span>
+                        <input type="text" class="car">
+                        <input type="text" class="car">
+                        <input type="text" class="car">
+                        <input type="text" class="car">
+                        <input type="text" class="car">
+                        <input type="text" class="car">
+                        <input type="text" class="car">
+                        <div class="last"></div>
+                    </div>
+                    <div><input type="file" accept="img/png"></div>
+                    <button class="but btn-primary postUp">上传信息</button>
+                </div>
+            </div>
+        </div>
+        <div class="keyboard">
+            <div class="ch"></div>
+            <div class="en"></div>
+            <div class="num"></div>
+            <div class="chback"></div>
+            <div class="enback"></div>
+        </div>
+        <div class="back setUp">
+            <div class="setinfo">
+                <span class="off">X</span>
+                <div class="alert">不能为空</div>
+                <div class="setHead">修改信息</div>
+                <div class="upinfo">
+                    <div><span>姓名：</span><input type="text" id="name" placeholder="请输入昵称！"></div>
+                    <div><span>联系电话：</span><input type="text" id="phone_number" placeholder="请输入电话号码！"></div>
+                    <div><span>门牌号：</span><input type="text" id="home_number" placeholder="请输入房间号"></div>
+                    <div><span>车位号：</span><input type="text" id="park_lot" placeholder="请输入车位号"></div>
+                    <div class="d-flex justify-content-start">
+                        <div>
+                            <span>车位状态：</span>
+                        </div>
+                        <div class="park_state1">已停满</div>
+                        <div class="park_state0">未停满</div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-evenly">
+                    <button class="btn btn-primary yes">确定</button>
+                    <button class="btn btn-danger no">取消</button>
+                </div>
+            </div>
+        </div>
+        <div class="back operation">
+            <div>
+                <span class="off">X</span>
+                <p><span class="owner"></span> <span>业主信息</span></p>
+                <div class="moreInfo">
+                    <div class="baseInfo">
+                        <p><span>姓名：</span><span class="name">电饭锅</span></p>
+                        <p><span>门牌号：</span><span class="home-number">5-6-1</span></p>
+                        <p><span>联系电话：</span><span class="phone-number">15029585743</span></p>
+                        <p><span>车位号：</span><span class="park-lot">4524</span></p>
+                        <p><span>车位状态：</span><span class="park-state">电饭锅</span></p>
+                    </div>
+                    <div class="otherInfo"></div>
+                </div>
+            </div>
+        </div>
+        <!-- operation的二级back -->
+        <!-- tainjiache -->
+        <div class="back setcar">
+            <div>
+                <span class="off">X</span>
+                <div>
+                    <input type="text">
+                    <input type="text">
+                    <input type="text">
+                    <input type="text">
+                    <input type="text">
+                    <input type="text">
+                    <input type="text">
+                    <div></div>
+                </div>
+                <div class="carImg">
+                    <span>+</span>
+                    <input type="file" name="" id="">
+                </div>
+                <button class="btn btn-primary formPost"> 提交</button>
+            </div>
+        </div>
+        <!-- shanchucheliang -->
+        <div class="back redcar">
+            <div>
+                <span class="off">X</span>
+                <div class="redcar_license"></div>
+            </div>
+        </div>
+        
+        <div class="back queding">
+            <div>
+                <p><span>确定删除车辆</span><span class="thiscar"></span>?</p>
+                <div>
+                    <button class="btn btn-primary yes">确定</button>
+                    <button class="btn btn-danger no">取消</button>
+                </div>
+            </div>
+        </div>
+    </body>
+    
+</html>
