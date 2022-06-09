@@ -165,16 +165,17 @@ $(function () {
                     $('.keyboard').hide()
                 })
 
-                // imginput.addEventListener('change',function () {
-                //     let YL = new FileReader()
-                //     YL.addEventListener('load', function (e) {
-                //         var imgnode = new Image()
-                //         imgnode.src = e.target.results
-                //         console.log(imgnode.src);
-                //         $('.carImg').prepend(imgnode)
-                //     })
-                //     YL.readAsDataURL($('.carImg>input[type="file"]')[0].files[0])
-                // })
+                imginput.addEventListener('change',function () {
+                    $('.carImg>img').remove()
+                    let YL = new FileReader()
+                    YL.addEventListener('load', function (e) {
+                        var imgnode = new Image()
+                        imgnode.src = e.target.result
+                        $('.carImg').prepend(imgnode)
+                    })
+                    $('.carImg>span').remove()
+                    YL.readAsDataURL($('.carImg>input[type="file"]')[0].files[0])
+                })
 
                 $('.formPost').click(function () {
                     let chepai = ''
