@@ -115,8 +115,8 @@ $(function () {
     }
 
     // 全选按钮
-    function allbtn(data){
-        $('.allbtn').click(function(){
+    function allbtn(data) {
+        $('.allbtn').click(function () {
             $('.ownerbtn').click()
         })
     }
@@ -160,38 +160,41 @@ $(function () {
             if (e.target.className == 'addcar') {
                 // 添加车辆事件
                 $('.back.setcar').width(width_).height(height_)
-                $('.setcar .off').click(function () { 
+                $('.setcar .off').click(function () {
                     $(this).parent().parent().width(0).height(0);
                     $('.keyboard').hide()
                 })
-                $(".setcar>div")[0].onclick=function(e){
+
+                imginput.addEventListener('change',function () {
                     let YL = new FileReader()
-                    YL.addEventListener('load',function(e) {
+                    YL.addEventListener('load', function (e) {
                         var imgnode = new Image()
                         imgnode.src = e.target.results
                         console.log(imgnode.src);
                         $('.carImg').prepend(imgnode)
                     })
-                }
-                $('.formPost').click(function(){
+                    YL.readAsDataURL($('.carImg>input[type="file"]')[0].files[0])
+                })
+
+                $('.formPost').click(function () {
                     let chepai = ''
-                    $('.setcar>div>div>input[type="text"]').each(function(i,el){
+                    $('.setcar>div>div>input[type="text"]').each(function (i, el) {
                         chepai += el.value
                     })
                     let imgsrc = $('.carImg>input')[0].files[0]
                     let owner = data.id
                     let carform = new FormData()
-                    carform.append('license',chepai)
-                    carform.append('car_img',imgsrc)
-                    carform.append('owner',owner)
+                    carform.append('license', chepai)
+                    carform.append('car_img', imgsrc)
+                    carform.append('owner', owner)
                     $.ajax({
                         type: 'POST',
                         url: 'http://1.14.68.137:8000/api/v0/license/',
                         contentType: false,
                         processData: false,
                         data: carform,
-                        success(res) { 
-                            window.location.reload() 
+                        success(res) {
+                            window.location.reload()
                         }
                     })
                 })
@@ -199,19 +202,19 @@ $(function () {
                 // 删除车辆事件
                 $('.redcar_license').html('')
                 $('.back.redcar').width(width_).height(height_)
-                $('.redcar .off').click(function () { 
+                $('.redcar .off').click(function () {
                     $(this).parent().parent().width(0).height(0);
                 })
                 $(data.carlist).each(function (i, el) {
                     var car = el.license.replace(el.license[1], el.license[1] + ' · ')
                     $('.redcar_license').append(`<div data-index = "${el.id}">${car}</div>`)
                 })
-                $('.redcar_license>div').click(function() {
+                $('.redcar_license>div').click(function () {
                     $('.back.queding').width(width_).height(height_)
                     $('.thiscar').html($(this).html())
                     var _ = this
-                    $('.queding >div').click(function(e) {
-                        if(e.target.innerHTML == '确定'){
+                    $('.queding >div').click(function (e) {
+                        if (e.target.innerHTML == '确定') {
                             $.ajax({
                                 url: 'http://1.14.68.137:8000/api/v0/license/' + _.dataset.index + '/',
                                 type: 'DELETE',
@@ -220,7 +223,7 @@ $(function () {
                                     window.location.reload()
                                 }
                             })
-                        }else if (e.target.innerHTML == '取消') $('.back.queding').width(0).height(0)
+                        } else if (e.target.innerHTML == '取消') $('.back.queding').width(0).height(0)
                     })
                 })
             }
@@ -263,7 +266,7 @@ $(function () {
     var w1 = $('.chback').width()
     var h1 = $('.chback').height()
     $('.keyboard').click(e => {
-        if(!$('.back.add').width()) return
+        if (!$('.back.add').width()) return
         $('.postUp').hide()
         $('input.car').each((i, el) => {
             if (!el.value) {
@@ -288,7 +291,7 @@ $(function () {
         })
     })
     $('.keyboard').click(e => {
-        if(!$('.back.setcar').width()) return
+        if (!$('.back.setcar').width()) return
         $('.setcar>div>div input').each((i, el) => {
             if (!el.value) {
                 if (e.target.className == 'infos') {
@@ -316,7 +319,7 @@ $(function () {
         $('.off').click(() => {
             $('.back.add').width(0).height(0)
             $('.keyboard').hide()
-    })
+        })
         $('.userInfo>div>input').eq(0).focus()
     })
     // 提交
@@ -424,7 +427,7 @@ $(function () {
         }
     })
     // 浏览器默认拖拽事件取消
-    document.addEventListener('dragenter',function(e) { e.preventDefault()})
-    document.addEventListener('dragleave',function(e) { e.preventDefault()})
-    document.addEventListener('dragover',function(e) { e.preventDefault()})
+    document.addEventListener('dragenter', function (e) { e.preventDefault() })
+    document.addEventListener('dragleave', function (e) { e.preventDefault() })
+    document.addEventListener('dragover', function (e) { e.preventDefault() })
 })
